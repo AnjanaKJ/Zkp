@@ -1,4 +1,4 @@
-const User = require('../models/user');
+const User = require('../models/User');
 const { generateProof } = require('../services/zkProofService');
 
 exports.receiveEHR = async (req, res) => {
