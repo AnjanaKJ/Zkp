@@ -3,7 +3,10 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const ehrRoutes = require('./routes/ehrRoutes');
 const reclaimRoutes = require('./routes/reclaimRoutes');
+
+require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -17,9 +20,9 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/reclaim', reclaimRoutes);
+app.use('/api/data', ehrRoutes);
 
-
-mongoose.connect('mongodb://127.0.0.1:27017/zkp', {
+mongoose.connect(process.env.MONGODB_URL, {
 //  useNewUrlParser: true,
 //  useUnifiedTopology: true,
 })

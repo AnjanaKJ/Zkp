@@ -10,7 +10,7 @@ exports.receiveEHR = async (req, res) => {
     }
 
     // Find the user by ID
-    const user = await User.findOne({ _id: id });
+    const user = await User.findOne({ did: id });
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
@@ -25,13 +25,14 @@ exports.receiveEHR = async (req, res) => {
 
     // Format the input data to match the expected format
     const inputData = {
-      did: 123456789,  // Ensure this matches the field in your database
+      did: id,  // Ensure this matches the field in your database
       conditionCode: ehrData  // Ensure this matches the field in your database
     };
 
     // Generate the proof
     const proof = await generateProof(inputData);
-
+    //res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Accept', '*/*');
     return res.status(200).json({ success: true, proof });
   } catch (error) {
     console.error('Error fetching EHR data or generating proof:', error);
